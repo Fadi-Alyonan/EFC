@@ -96,7 +96,6 @@ public class ProgramService
             Console.Write("Enter new role: ");
             userToUpdate.RoleName = Console.ReadLine();
 
-
             userToUpdate.Email = email;
 
             if (await userService.UpdateUser(userToUpdate))
