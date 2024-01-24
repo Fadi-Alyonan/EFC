@@ -99,10 +99,11 @@ public class UserService(AddressRepository addressRepository, PhoneNumberReposit
     }
     public async Task<bool> UpdateUser(UserDto user)
     {
+        
         try
         {
-            
-            if (await CheckIfUserExistsAsync(user.Email))
+            var userEntityUpdate = _userRepository.GetOne(x => x.Email == user.Email);
+            if (userEntityUpdate != null)
             {
                 var addressEntity = new AddressEntity
                 {

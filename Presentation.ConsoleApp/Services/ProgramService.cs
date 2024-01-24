@@ -122,7 +122,7 @@ public class ProgramService
         {
             foreach (var user in users)
             {
-                Console.WriteLine($"Name: {user.FirstName} {user.LastName}, Email: {user.RoleName}");
+                Console.WriteLine($"Name: {user.FirstName} {user.LastName}, Email: {user.Email}");
             }
         }
         else

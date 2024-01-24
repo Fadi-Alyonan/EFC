@@ -30,5 +30,22 @@ public class UserRepository(DataContext context) : BaseRepository<UserEntity>(co
         return null!;
     }
 
-    
+    public override async Task<UserEntity> GetOne(Expression<Func<UserEntity, bool>> predicate)
+    {
+        try
+        {
+            var result = await _context.Users
+                    .Include(u => u.Profile)
+                    .Include(u => u.Address)
+                    .Include(u => u.Role)
+                    .Include(u => u.PhoneNumber).FirstOrDefaultAsync(predicate);
+            if (result != null)
+            {
+                return result;
+            }
+
+        }
+        catch (Exception ex) { Debug.WriteLine("Error :: " + ex.Message); }
+        return null!;
+    }
 }
