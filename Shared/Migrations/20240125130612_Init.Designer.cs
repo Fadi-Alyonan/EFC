@@ -12,7 +12,7 @@ using Shared.Contexts;
 namespace Shared.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240118143715_Init")]
+    [Migration("20240125130612_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -104,9 +104,6 @@ namespace Shared.Migrations
                         .HasColumnType("nvarchar(30)");
 
                     b.HasKey("RoleId");
-
-                    b.HasIndex("RoleName")
-                        .IsUnique();
 
                     b.ToTable("Roles");
                 });

@@ -2,6 +2,7 @@
 using Shared.Dtos;
 using Shared.Entities;
 using Shared.Repositories;
+using System;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
@@ -97,43 +98,83 @@ public class UserService(AddressRepository addressRepository, PhoneNumberReposit
         return null!;
         
     }
+    public async Task<UserDto> GetOneUser(UserEntity userEntity)
+    {
+        
+        try
+        {
+            var result = await _userRepository.GetOne(x => x.Email == userEntity.Email);
+
+            if (result != null)
+            {
+                var userDto = new UserDto
+                {
+                    FirstName = result.Profile.FirstName,
+                    LastName = result.Profile.LastName,
+                    PhoneNumber = result.PhoneNumber.PhoneNumber,
+                    RoleName = result.Role.RoleName,
+                    Email = result.Email,
+                    StreetName = result.Address.StreetName,
+                    PostalCode = result.Address.PostalCode,
+                    City = result.Address.City,
+                };
+
+                return userDto;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine("Error :: " + ex.Message);
+        }
+
+        return null!;
+    }
     public async Task<bool> UpdateUser(UserDto user)
     {
         
         try
         {
-            var userEntityUpdate = _userRepository.GetOne(x => x.Email == user.Email);
+            var userEntityUpdate = await _userRepository.GetOne(x => x.Email == user.Email);
             if (userEntityUpdate != null)
             {
                 var addressEntity = new AddressEntity
                 {
+                    AddressId = userEntityUpdate.AddressId,
                     StreetName = user.StreetName,
                     City = user.City,
                     PostalCode = user.PostalCode,
                 };     
-                await _addressRepository.Update(x => x.AddressId == addressEntity.AddressId, addressEntity);
+                await _addressRepository.Update(x => x.AddressId == userEntityUpdate.AddressId, addressEntity);
                 var phoneNumberEntity = new PhoneNumberEntity
                 {
+                    PhoneNumberId = userEntityUpdate.PhoneNumberId,
                     PhoneNumber = user.PhoneNumber
                 };
-                await _phoneNumberRepository.Update(x => x.PhoneNumberId == phoneNumberEntity.PhoneNumberId, phoneNumberEntity);
+                await _phoneNumberRepository.Update(x => x.PhoneNumberId == userEntityUpdate.PhoneNumberId, phoneNumberEntity);
                 var roleEntity = new RoleEntity
                 {
+                    RoleId = userEntityUpdate.RoleId,
                     RoleName = user.RoleName
                 };
-                await _roleRepository.Update(x => x.RoleId == roleEntity.RoleId, roleEntity);
+                await _roleRepository.Update(x => x.RoleId == userEntityUpdate.RoleId, roleEntity);
                 var profileEntity = new ProfileEntity
                 {
+                    ProfileId = userEntityUpdate.ProfileId,
                     FirstName = user.FirstName,
                     LastName = user.LastName
                 };
-                await _profileRepository.Update(x => x.ProfileId == profileEntity.ProfileId ,profileEntity);
+                await _profileRepository.Update(x => x.ProfileId == userEntityUpdate.ProfileId, profileEntity);
                 var userEntity = new UserEntity
                 {
+                    UserId = userEntityUpdate.UserId,
+                    AddressId = userEntityUpdate.AddressId,
+                    PhoneNumberId= userEntityUpdate.PhoneNumberId,
+                    RoleId = userEntityUpdate.RoleId,
+                    ProfileId = userEntityUpdate.ProfileId,
                     Email = user.Email,
                     Password = GenerateSecurePassword(user.Password)
                 };
-                await _userRepository.Update(x=> x.UserId == userEntity.UserId ,userEntity);
+                await _userRepository.Update(x=> x.UserId == userEntityUpdate.UserId, userEntity);
                 return true;
             }
         }

@@ -102,9 +102,6 @@ namespace Shared.Migrations
 
                     b.HasKey("RoleId");
 
-                    b.HasIndex("RoleName")
-                        .IsUnique();
-
                     b.ToTable("Roles");
                 });
 

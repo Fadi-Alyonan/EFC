@@ -1,12 +1,12 @@
 ﻿using Shared.Dtos;
-using Shared.Repositories;
+using Shared.Entities;
 using Shared.Services;
+using System.Diagnostics;
 
 namespace Presentation.ConsoleApp.Services;
 
 public class ProgramService
 {
-    private readonly UserRepository? _userRepository;
 
     public static async Task AddUser(UserService userService)
     {
@@ -65,7 +65,7 @@ public class ProgramService
         Console.Write("Enter email to find user for update: ");
         var email = Console.ReadLine();
 
-        var userToUpdate = new UserDto();
+        var userToUpdate = new UserDto() { Email = email };
         
 
         if (await userService.CheckIfUserExistsAsync(email))
@@ -96,7 +96,7 @@ public class ProgramService
             Console.Write("Enter new role: ");
             userToUpdate.RoleName = Console.ReadLine();
 
-            userToUpdate.Email = email;
+            
 
             if (await userService.UpdateUser(userToUpdate))
             {
@@ -127,6 +127,43 @@ public class ProgramService
         else
         {
             Console.WriteLine("Error fetching users.");
+        }
+    }
+
+    public static async Task ShowOneUser(UserService userService)
+    {
+        try
+        {
+            Console.Write("Enter email to show user information: ");
+
+            var email = Console.ReadLine();
+
+           
+            if (await userService.CheckIfUserExistsAsync(email))
+            {
+                
+                var userDto = await userService.GetOneUser(new UserEntity { Email = email });
+
+                // Display user information in the console
+                Console.WriteLine($"User Information:\n" +
+                                  $"-----------------\n" +
+                                  $"First Name: {userDto.FirstName}\n" +
+                                  $"Last Name: {userDto.LastName}\n" +
+                                  $"Phone Number: {userDto.PhoneNumber}\n" +
+                                  $"Role Name: {userDto.RoleName}\n" +
+                                  $"Email: {userDto.Email}\n" +
+                                  $"Street Name: {userDto.StreetName}\n" +
+                                  $"Postal Code: {userDto.PostalCode}\n" +
+                                  $"City: {userDto.City}\n");
+            }
+            else
+            {
+                Console.WriteLine("User not found.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error: {ex.Message}");
         }
     }
 

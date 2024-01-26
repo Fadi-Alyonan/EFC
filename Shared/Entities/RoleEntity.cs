@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Shared.Entities;
 
-[Index(nameof(RoleName), IsUnique = true)]
+
 public class RoleEntity
 {
     [Key]

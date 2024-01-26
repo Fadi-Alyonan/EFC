@@ -15,7 +15,7 @@ var builder = Host.CreateDefaultBuilder().ConfigureServices(services =>
     services.AddScoped<ProfileRepository>();
     services.AddScoped<RoleRepository>();
     services.AddScoped<UserRepository>();
-    services.AddScoped<UserService>();
+    services.AddSingleton<UserService>();
 
 }).Build();
 
@@ -32,8 +32,9 @@ using (var scope = builder.Services.CreateScope())
         
         Console.WriteLine("1. Add a user");
         Console.WriteLine("2. Update a user");
-        Console.WriteLine("3. Show all users");
-        Console.WriteLine("4. Delete a user by email");
+        Console.WriteLine("3. Show all users"); 
+        Console.WriteLine("4. Show users information");
+        Console.WriteLine("5. Delete a user by email");
         Console.WriteLine("0. Exit");
 
         Console.Write("Choose an action (0-4): ");
@@ -54,6 +55,10 @@ using (var scope = builder.Services.CreateScope())
                 break;
 
             case "4":
+                await ProgramService.ShowOneUser(userService);
+                break;
+
+            case "5":
                 await ProgramService.DeleteUserFromdb(userService);
                 break;
 
