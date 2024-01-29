@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace Shared.Repositories;
 
-public class UserRepository(DataContext context) : BaseRepository<UserEntity>(context)
+public class UserRepository(DataContext context) : BaseRepository<UserEntity, DataContext>(context)
 {
     private readonly DataContext _context = context;
 

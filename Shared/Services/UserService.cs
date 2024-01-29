@@ -1,8 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
-using Shared.Dtos;
+﻿using Shared.Dtos;
 using Shared.Entities;
 using Shared.Repositories;
-using System;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;

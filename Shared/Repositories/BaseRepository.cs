@@ -1,15 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Shared.Contexts;
 using System.Diagnostics;
 using System.Linq.Expressions;
 
 namespace Shared.Repositories;
 
-public abstract class BaseRepository<TEntity> where TEntity : class
+public abstract class BaseRepository<TEntity, TContext> where TEntity : class where TContext : DbContext
 {
-    private readonly DataContext _context;
+    private readonly TContext _context;
 
-    protected BaseRepository(DataContext context)
+    protected BaseRepository(TContext context)
     {
         _context = context;
     }
