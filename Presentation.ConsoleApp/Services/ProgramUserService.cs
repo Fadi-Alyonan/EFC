@@ -52,13 +52,15 @@ internal class ProgramUserService
 
         if (await userService.CreateUser(userDto))
         {
+            Console.Clear();
             Console.WriteLine("User added successfully!");
         }
         else
         {
-            Console.WriteLine("Error adding user.");
+            Console.Clear();
+            Console.WriteLine("Error adding user maybe user with same email already exists try with another email.");
         }
-
+        
     }
 
     public static async Task UpdateUser(UserService userService)
@@ -102,15 +104,18 @@ internal class ProgramUserService
 
             if (await userService.UpdateUser(userToUpdate))
             {
+                Console.Clear();
                 Console.WriteLine("User updated successfully!");
             }
             else
             {
+                Console.Clear();
                 Console.WriteLine("Error updating user.");
             }
         }
         else
         {
+            Console.Clear();
             Console.WriteLine($"User with email {email} not found.");
         }
 
@@ -118,18 +123,21 @@ internal class ProgramUserService
 
     public static async Task ShowAllUsers(UserService userService)
     {
-        Console.Clear();
+        
         var users = await userService.GetAllUsers();
 
         if (users != null)
         {
+            Console.Clear();
             foreach (var user in users)
             {
+               
                 Console.WriteLine($"Name: {user.FirstName} {user.LastName}, Email: {user.Email}");
             }
         }
         else
         {
+            Console.Clear();
             Console.WriteLine("Error fetching users.");
         }
     }
@@ -146,10 +154,10 @@ internal class ProgramUserService
 
             if (await userService.CheckIfUserExistsAsync(email))
             {
-
+                
                 var userDto = await userService.GetOneUser(new UserEntity { Email = email });
-
-                // Display user information in the console
+                Console.Clear();
+                
                 Console.WriteLine($"User Information:\n" +
                                   $"-----------------\n" +
                                   $"First Name: {userDto.FirstName}\n" +
@@ -163,6 +171,7 @@ internal class ProgramUserService
             }
             else
             {
+                Console.Clear();
                 Console.WriteLine("User not found.");
             }
         }
@@ -183,10 +192,12 @@ internal class ProgramUserService
 
         if (await userService.DeleteUser(userDto))
         {
+            Console.Clear();
             Console.WriteLine($"User with email {email} deleted successfully!");
         }
         else
         {
+            Console.Clear();
             Console.WriteLine($"Error deleting user with email {email}.");
         }
     }

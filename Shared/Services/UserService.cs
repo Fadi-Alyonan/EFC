@@ -15,7 +15,6 @@ public class UserService(AddressRepository addressRepository, PhoneNumberReposit
     private readonly ProfileRepository _profileRepository = profileRepository;
     private readonly RoleRepository _roleRepository = roleRepository;
     private readonly UserRepository _userRepository = userRepository;
-    
 
     public async Task<bool> CreateUser(UserDto user)
     {

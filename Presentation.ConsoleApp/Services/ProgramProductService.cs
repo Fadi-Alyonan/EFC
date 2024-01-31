@@ -9,6 +9,7 @@ internal class ProgramProductService
 {
     public static async Task AddProduct(ProductService productService)
     {
+        Console.Clear();
         Console.Write("Enter product name: ");
         var productName = Console.ReadLine();
 
@@ -52,14 +53,16 @@ internal class ProgramProductService
             ManufacturerName = manufacturerName!,
             ProductPrice = productPrice
         };
-
+        
         if (await productService.CreateProduct(productDto))
         {
+            Console.Clear();
             Console.WriteLine("Product added successfully!");
         }
         else
         {
-            Console.WriteLine("Error adding product.");
+            Console.Clear();
+            Console.WriteLine("The product already exists.");
         }
 
     }
@@ -128,11 +131,12 @@ internal class ProgramProductService
     }
     public static async Task ShowAllProducts(ProductService productService)
     {
-        Console.Clear();
+        
         var products = await productService.GetAllProducts();
 
         if (products != null)
         {
+            Console.Clear();
             foreach (var product in products)
             {
                 Console.WriteLine($"Product Name: {product.ProductName}, Quantity: {product.QuantityInStock},  Price: {product.ProductPrice}");
@@ -140,14 +144,16 @@ internal class ProgramProductService
         }
         else
         {
+            Console.Clear();
             Console.WriteLine("Error fetching products.");
         }
     }
     public static async Task ShowOneProduct(ProductService productService)
     {
-        Console.Clear();
+        
         try
         {
+            Console.Clear();
             Console.Write("Enter product name to show product information: ");
 
             var productName = Console.ReadLine();
@@ -155,7 +161,7 @@ internal class ProgramProductService
             if (await productService.CheckIfProductExistsAsync(productName))
             {
                 var productDto = await productService.GetOneProduct(new Product { ProductName = productName });
-
+                Console.Clear();
                 // Display product information in the console
                 Console.WriteLine($"Product Information:\n" +
                                   $"-----------------\n" +
@@ -169,6 +175,7 @@ internal class ProgramProductService
             }
             else
             {
+                Console.Clear();
                 Console.WriteLine("Product not found.");
             }
         }
@@ -189,10 +196,12 @@ internal class ProgramProductService
 
         if (await productService.DeleteProduct(productDto))
         {
+            Console.Clear();
             Console.WriteLine($"Product with name {productName} deleted successfully!");
         }
         else
         {
+            Console.Clear();
             Console.WriteLine($"Error deleting product with name {productName}.");
         }
     }
