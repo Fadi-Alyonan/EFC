@@ -24,9 +24,6 @@ public abstract class BaseRepository<TEntity, TContext> where TEntity : class wh
         }
         catch (Exception ex) {
             Debug.WriteLine("Error :: " + ex.Message);
-           
-           
-            
         }
         return null!;
     }
@@ -40,7 +37,6 @@ public abstract class BaseRepository<TEntity, TContext> where TEntity : class wh
             {
                 return result;
             }
-           
         }
         catch (Exception ex) { Debug.WriteLine("Error :: " + ex.Message);}
         return null!;

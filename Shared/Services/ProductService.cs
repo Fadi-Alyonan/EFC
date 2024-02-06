@@ -82,9 +82,8 @@ public class ProductService(ProductRepository productRepository, ProductionInfor
             }
             return products;
         }
-
         catch (Exception ex) { Debug.WriteLine("Error :: " + ex.Message); }
-        return null!;
+            return null!;
 
     }
     public async Task<ProductDto> GetOneProduct(Product product)

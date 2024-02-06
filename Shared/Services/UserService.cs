@@ -90,9 +90,8 @@ public class UserService(AddressRepository addressRepository, PhoneNumberReposit
             }
             return user;
         }
-
         catch (Exception ex) { Debug.WriteLine("Error :: " + ex.Message); }
-        return null!;
+            return null!;
         
     }
     public async Task<UserDto> GetOneUser(UserEntity userEntity)

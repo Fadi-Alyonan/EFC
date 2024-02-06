@@ -66,24 +66,23 @@ internal class ProgramProductService
         }
 
     }
-
     public static async Task UpdateProduct(ProductService productService)
     {
         Console.Clear();
         Console.Write("Enter product name to find product for update: ");
         var productName = Console.ReadLine();
 
-        var productToUpdate = new ProductDto() { ProductName = productName };
+        var productToUpdate = new ProductDto() { ProductName = productName! };
 
-        if (await productService.CheckIfProductExistsAsync(productName))
+        if (await productService.CheckIfProductExistsAsync(productName!))
         {
             Console.WriteLine($"Product found! Enter new details:");
 
             Console.Write("Enter new product name: ");
-            productToUpdate.ProductName = Console.ReadLine();
+            productToUpdate.ProductName = Console.ReadLine()!;
 
             Console.Write("Enter new product description: ");
-            productToUpdate.ProductDescription = Console.ReadLine();
+            productToUpdate.ProductDescription = Console.ReadLine()!;
 
             Console.Write("Enter new product quantity in stock: ");
             if (!int.TryParse(Console.ReadLine(), out var quantityInStock))
@@ -102,10 +101,10 @@ internal class ProgramProductService
             productToUpdate.ProductionDate = productionDate;
 
             Console.Write("Enter new product category name: ");
-            productToUpdate.CategoryName = Console.ReadLine();
+            productToUpdate.CategoryName = Console.ReadLine()!;
 
             Console.Write("Enter new product manufacturer name: ");
-            productToUpdate.ManufacturerName = Console.ReadLine();
+            productToUpdate.ManufacturerName = Console.ReadLine()!;
 
             Console.Write("Enter new product price: ");
             if (!decimal.TryParse(Console.ReadLine(), out var productPrice))
@@ -134,7 +133,7 @@ internal class ProgramProductService
         
         var products = await productService.GetAllProducts();
 
-        if (products != null)
+        if (products != null && products.Count() != 0)
         {
             Console.Clear();
             foreach (var product in products)
@@ -158,9 +157,9 @@ internal class ProgramProductService
 
             var productName = Console.ReadLine();
 
-            if (await productService.CheckIfProductExistsAsync(productName))
+            if (await productService.CheckIfProductExistsAsync(productName!))
             {
-                var productDto = await productService.GetOneProduct(new Product { ProductName = productName });
+                var productDto = await productService.GetOneProduct(new Product { ProductName = productName!});
                 Console.Clear();
                 // Display product information in the console
                 Console.WriteLine($"Product Information:\n" +
@@ -192,7 +191,7 @@ internal class ProgramProductService
 
         var productName = Console.ReadLine();
 
-        var productDto = new ProductDto { ProductName = productName };
+        var productDto = new ProductDto { ProductName = productName!};
 
         if (await productService.DeleteProduct(productDto))
         {

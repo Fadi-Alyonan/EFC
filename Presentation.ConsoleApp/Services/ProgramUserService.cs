@@ -69,18 +69,18 @@ internal class ProgramUserService
         Console.Write("Enter email to find user for update: ");
         var email = Console.ReadLine();
 
-        var userToUpdate = new UserDto() { Email = email };
+        var userToUpdate = new UserDto() { Email = email!};
 
 
-        if (await userService.CheckIfUserExistsAsync(email))
+        if (await userService.CheckIfUserExistsAsync(email!))
         {
             Console.WriteLine($"User found! Enter new details:");
 
             Console.Write("Enter first name: ");
-            userToUpdate.FirstName = Console.ReadLine();
+            userToUpdate.FirstName = Console.ReadLine()!;
 
             Console.Write("Enter last name: ");
-            userToUpdate.LastName = Console.ReadLine();
+            userToUpdate.LastName = Console.ReadLine()!;
 
             Console.Write("Enter street name: ");
             userToUpdate.StreetName = Console.ReadLine();
@@ -95,10 +95,10 @@ internal class ProgramUserService
             userToUpdate.PhoneNumber = Console.ReadLine();
 
             Console.Write("Enter new password: ");
-            userToUpdate.Password = Console.ReadLine();
+            userToUpdate.Password = Console.ReadLine()!;
 
             Console.Write("Enter new role: ");
-            userToUpdate.RoleName = Console.ReadLine();
+            userToUpdate.RoleName = Console.ReadLine()!;
 
 
 
@@ -126,19 +126,18 @@ internal class ProgramUserService
         
         var users = await userService.GetAllUsers();
 
-        if (users != null)
+        if (users != null && users.Count() != 0)
         {
             Console.Clear();
             foreach (var user in users)
             {
-               
                 Console.WriteLine($"Name: {user.FirstName} {user.LastName}, Email: {user.Email}");
             }
-        }
+        } 
         else
         {
             Console.Clear();
-            Console.WriteLine("Error fetching users.");
+            Console.WriteLine("Users not found.");
         }
     }
 
@@ -152,10 +151,10 @@ internal class ProgramUserService
             var email = Console.ReadLine();
 
 
-            if (await userService.CheckIfUserExistsAsync(email))
+            if (await userService.CheckIfUserExistsAsync(email!))
             {
                 
-                var userDto = await userService.GetOneUser(new UserEntity { Email = email });
+                var userDto = await userService.GetOneUser(new UserEntity { Email = email!});
                 Console.Clear();
                 
                 Console.WriteLine($"User Information:\n" +
@@ -188,7 +187,7 @@ internal class ProgramUserService
 
         var email = Console.ReadLine();
 
-        var userDto = new UserDto { Email = email };
+        var userDto = new UserDto { Email = email!};
 
         if (await userService.DeleteUser(userDto))
         {
